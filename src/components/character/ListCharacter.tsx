@@ -1,7 +1,8 @@
-import { IGetAllCharacter } from '../../data/character/characterData'
+import { Link } from 'react-router-dom'
+import { IGetAllCharacterResponse } from '../../data/response/character/getAllCharactersResponse'
 
 interface IProps {
-  characters: IGetAllCharacter
+  characters?: IGetAllCharacterResponse
 }
 
 function getStatusColor(status: string): string {
@@ -20,10 +21,11 @@ export default function ListCharacter(props: IProps) {
 
   return (
     <div className='grid grid-cols-2 gap-4'>
-      {characters.characters.results.map((character) => (
-        <div
+      {characters?.characters.results.map((character) => (
+        <Link
           key={character.id}
-          className='bg-white rounded-md text-gray-900 flex'
+          className='bg-white rounded-md text-gray-900 flex cursor-pointer'
+          to={`/character/${character.id}`}
         >
           <img
             src={character.image}
@@ -52,7 +54,7 @@ export default function ListCharacter(props: IProps) {
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   )

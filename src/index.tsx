@@ -1,9 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.scss'
-import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
+import { RouterProvider } from 'react-router-dom'
+import router from './router'
 
 const client = new ApolloClient({
   uri: 'https://rickandmortyapi.com/graphql',
@@ -15,7 +16,9 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <App />
+      <div className='App bg-gray-800 text-white min-h-screen'>
+        <RouterProvider router={router()} />
+      </div>
     </ApolloProvider>
   </React.StrictMode>
 )

@@ -1,22 +1,15 @@
-import { useEffect, useState } from 'react'
-import { useQuery } from '@apollo/client'
-import { GET_ALL_CHARACTER } from '../../graphql/queries/characterQuery'
+import { useGetAllCharactersQuery } from '../../graphql/queries/character/useGetAllCharactersQuery'
 import { FaSpinner } from 'react-icons/fa'
 import ListCharacter from '../../components/character/ListCharacter'
-import { IGetAllCharacter } from '../../data/character/characterData'
+import SearchCharacter from '../../components/character/SearchCharacter'
 
 export default function Characters() {
-  const { error, loading, data } = useQuery(GET_ALL_CHARACTER)
-
-  const [characters, setCharacters] = useState<IGetAllCharacter>({
-    characters: { results: [] },
-  })
-
-  useEffect(() => {
-    if (data) {
-      setCharacters(data)
-    }
-  }, [data])
+  const {
+    error,
+    loading,
+    data: listCharacter,
+    refetch,
+  } = useGetAllCharactersQuery()
 
   if (loading)
     return (
@@ -26,12 +19,24 @@ export default function Characters() {
     )
   if (error) return <p>Oops, Something went wrong..</p>
 
-  return (
-    <div>
-      <div className='max-w-[650px] mx-auto'>
-        <h1 className='mx-auto text-3xl mb-4 w-max'>List Character</h1>
+  const handleSearch = (search: string) => {
+    refetch({
+      filter: {
+        name: search,
+      },
+    })
+  }
 
-        <ListCharacter characters={characters} />
+  return (
+    <div className='pt-4 py-4'>
+      <div className='max-w-[650px] mx-auto'>
+        <h1 className='mx-auto text-3xl mb-4 w-max font-bold'>
+          Rick & Morty Characters
+        </h1>
+
+        <SearchCharacter onSearch={handleSearch} />
+
+        <ListCharacter characters={listCharacter} />
       </div>
     </div>
   )

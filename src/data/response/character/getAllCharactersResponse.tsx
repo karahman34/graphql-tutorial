@@ -1,7 +1,9 @@
+import { ICharacterStatus } from '../../enums/characterStatusEnum'
+
 interface ICharactersResultsItem {
   id: string
   name: string
-  status: string
+  status: ICharacterStatus
   species: string
   gender: string
   image: string
@@ -12,6 +14,6 @@ interface ICharactersResults {
   results: Array<ICharactersResultsItem>
 }
 
-export interface IGetAllCharacter {
+export interface IGetAllCharacterResponse {
   characters: ICharactersResults
 }
